@@ -1,8 +1,13 @@
 @extends('layouts.admin')
+@section('title')
+  Admin - Categories
+@endsection
 
 @section('main')
-
-  <h2>Categories</h2>
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>Categories</h2>
+    <a href="{{ route('admin.categories.create') }}" class="btn btn-success">Create new</a>
+  </div>
   <div class="table-responsive">
     <table class="table table-striped table-sm">
       <thead>
@@ -15,66 +20,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-          <td>
-            <a href="#" class="link-primary">Edit</a>
-            &nbsp;|&nbsp;
-            <a href="#" class="link-danger">Delete</a>
-          </td>
-        </tr>
-        <tr>
-          <td>1,002</td>
-          <td>placeholder</td>
-          <td>irrelevant</td>
-          <td>visual</td>
-          <td>layout</td>
-        </tr>
-        <tr>
-          <td>1,003</td>
-          <td>data</td>
-          <td>rich</td>
-          <td>dashboard</td>
-          <td>tabular</td>
-        </tr>
-        <tr>
-          <td>1,003</td>
-          <td>information</td>
-          <td>placeholder</td>
-          <td>illustrative</td>
-          <td>data</td>
-        </tr>
-        <tr>
-          <td>1,004</td>
-          <td>text</td>
-          <td>random</td>
-          <td>layout</td>
-          <td>dashboard</td>
-        </tr>
-        <tr>
-          <td>1,005</td>
-          <td>dashboard</td>
-          <td>irrelevant</td>
-          <td>text</td>
-          <td>placeholder</td>
-        </tr>
-        <tr>
-          <td>1,006</td>
-          <td>dashboard</td>
-          <td>illustrative</td>
-          <td>rich</td>
-          <td>data</td>
-        </tr>
-        <tr>
-          <td>1,007</td>
-          <td>placeholder</td>
-          <td>tabular</td>
-          <td>information</td>
-          <td>irrelevant</td>
-        </tr>
+        @foreach ($categories as $category)
+          <tr>
+            <td>{{ $category->id }}</td>
+            <td>{{ $category->title }}</td>
+            <td>{{ $category->description }} </td>
+            <td>{{ $category->created_at }} </td>
+            <td>
+              <a href="{{ route('admin.categories.edit', ['category' => $category]) }}" class="link-primary">Edit</a>
+              &nbsp;|&nbsp;
+              <a href="#" class="link-danger">Delete</a>
+            </td>
+          </tr>
+        @endforeach
       </tbody>
     </table>
   </div>

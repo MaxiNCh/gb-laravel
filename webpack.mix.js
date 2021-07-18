@@ -12,4 +12,5 @@ const mix = require('laravel-mix');
  */
 
 mix.postCss('resources/css/admin/admin.css', 'public/assets/admin/css/admin.css')
-  .postCss('resources/css/app.css', 'public/assets/css/app.css');
+  .postCss('resources/css/app.css', 'public/assets/css')
+  .postCss('resources/css/bootstrap-reboot.css', 'public/assets/css');

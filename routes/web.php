@@ -1,4 +1,4 @@
-s<?php
+<?php
 
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;

@@ -1,4 +1,5 @@
 {
+    "/assets/css/bootstrap-reboot.css": "/assets/css/bootstrap-reboot.css",
     "/assets/css/app.css": "/assets/css/app.css",
     "/assets/admin/css/admin.css": "/assets/admin/css/admin.css"
 }
