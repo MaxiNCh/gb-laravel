@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
   public function index()
   {
-    $test = 'test';
-    return view('main');
+    $news = News::with('category')->paginate(10);
+    $categories = Category::all();
+    return view('index', [
+      'newsList' => $news,
+      'categories' => $categories
+    ]);
   }
 }

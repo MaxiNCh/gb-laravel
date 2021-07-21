@@ -40,8 +40,8 @@
   <div class="container">
 
     <x-header />
+    <x-nav :categories="$categories" />
 
-    <x-nav />
   </div>
 
   <main class="container">
