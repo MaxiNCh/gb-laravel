@@ -3,7 +3,8 @@
 
 @section('main')
   <h2>Create category</h2>
-  <form>
+  <form method="POST" action="/admin/categories">
+    @csrf
     <div class="form-group">
       <label class="fw-bolder" for="title">Title</label>
       <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{ old('title') }}">

@@ -29,7 +29,7 @@
             <td>
               <a href="{{ route('admin.categories.edit', ['category' => $category]) }}" class="link-primary">Edit</a>
               &nbsp;|&nbsp;
-              <a href="#" class="link-danger">Delete</a>
+              <a href="#" rel="deletion" data-id="{{ $category->id }}" class="link-danger delete">Delete</a>
             </td>
           </tr>
         @endforeach
@@ -39,3 +39,46 @@
 
 
 @endsection
+
+@push('js-delete-element')
+  <script>
+    const toastEl = document.querySelector('.toast');
+    const toast = new bootstrap.Toast(toastEl);
+
+    const deleteLinks = document.querySelector('.table-responsive').querySelectorAll('.delete');
+    deleteLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const categoryId = e.target.dataset.id;
+        fetch(`/admin/categories/${categoryId}`, {
+            method: 'DELETE',
+            headers: {
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+              'Accept': 'text/html'
+            }
+          }).then(response => {
+            return response.json()
+          })
+          .then(data => {
+            showToast(data.success, data.message);
+          });
+      })
+    });
+
+    function showToast(success, message) {
+      if (success) {
+        document.querySelector('.toast-header').classList.add('text-white', 'bg-success');
+        const toastBodyEl = document.querySelector('.toast-body');
+        toastBodyEl.classList.add('text-success');
+        toastBodyEl.innerText = message;
+        toast.show();
+        setTimeout(() => location.reload(), 500);
+      } else {
+        document.querySelector('.toast-header').classList.add('text-white', 'bg-danger');
+        const toastBodyEl = document.querySelector('.toast-body');
+        toastBodyEl.classList.add('text-danger');
+        toastBodyEl.innerText = message;
+        toast.show();
+      }
+    }
+  </script>
+@endpush

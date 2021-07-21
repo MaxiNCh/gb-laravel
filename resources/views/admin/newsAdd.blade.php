@@ -3,13 +3,19 @@
 
 @section('main')
   <h2>Create news</h2>
-  <form>
+  @if ($errors->any())
+    @foreach ($errors as $error)
+      <div class="alert alert-danger">{{ $error }}</div>
+    @endforeach
+  @endif
+  <form method="POST" action="/admin/news">
+    @csrf
     <div class="form-group">
       <label class="fw-bolder" for="category">Category</label>
       <select class="form-control" id="category" name="category_id">
         <option></option>
         @foreach ($categories as $category)
-          <option value="{{ $category->id }}" @if (old('category_id') === $category->id) selected @endif>
+          <option value="{{ $category->id }}" required @if (old('category_id') === $category->id) selected @endif>
             {{ $category->title }}
           </option>
         @endforeach
@@ -17,11 +23,12 @@
     </div>
     <div class="form-group">
       <label class="fw-bolder" for="title">Title</label>
-      <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{ old('title') }}">
+      <input type="text" class="form-control" id="title" name="title" placeholder="Title" required
+        value="{{ old('title') }}">
     </div>
     <div class="form-group">
       <label class="fw-bolder" for="author">Author</label>
-      <input type="text" class="form-control" id="author" name="author" placeholder="Author"
+      <input type="text" class="form-control" id="author" name="author" placeholder="Author" required
         value="{{ old('author') }}">
     </div>
     <div class="form-group">

@@ -3,7 +3,9 @@
 
 @section('main')
   <h2>Edit news</h2>
-  <form>
+  <form method="POST" action="/admin/news/{{ $news->id }}">
+    @csrf
+    @method('PUT')
     <div class="form-group">
       <label class="fw-bolder" for="category">Category</label>
       <select class="form-control" id="category" name="category_id">

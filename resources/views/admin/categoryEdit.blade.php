@@ -3,7 +3,9 @@
 
 @section('main')
   <h2>Edit category</h2>
-  <form>
+  <form method="POST" action="/admin/categories/{{ $category->id }}">
+    @csrf
+    @method('PUT')
     <div class="form-group">
       <label class="fw-bolder" for="title">Title</label>
       <input type="text" class="form-control" id="title" name="title" placeholder="Title"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -39,7 +40,15 @@ class CategoryController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    $data = $request->only('title', 'description', 'color');
+    $category = Category::create($data);
+
+    if ($category) {
+      return redirect()->route('admin.categories.index')
+        ->with('success', 'Запись успешно создана');
+    }
+
+    return back()->with('error', 'Не удалось создать запись');
   }
 
   /**
@@ -73,9 +82,18 @@ class CategoryController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(Request $request, Category $category)
   {
-    //
+    $data = $request->only('title', 'description', 'color');
+
+    $statusCategory = $category->fill($data)->save();
+
+    if ($statusCategory) {
+      return redirect()->route('admin.categories.index')
+        ->with('success', 'Category succesfully updated');
+    }
+
+    return back()->with('error', 'Category was not updated');
   }
 
   /**
@@ -84,8 +102,28 @@ class CategoryController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(Category $category)
   {
-    //
+    try {
+      $category->delete();
+      return new JsonResponse([
+        'message' => 'Category succesfully deleted',
+        'success' => true
+      ], 200);
+    } catch (\Exception $ex) {
+      if ($ex->getCode() === '23000') {
+        return new JsonResponse([
+          'message' => 'Category cannot be deleted from DB',
+          'errorCode' => $ex->getCode(),
+          'success' => false
+        ], 500);
+      } else {
+        return new JsonResponse([
+          'message' => $ex->getMessage(),
+          'errorCode' => $ex->getCode(),
+          'success' => false
+        ], 500);
+      }
+    }
   }
 }

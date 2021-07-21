@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
@@ -16,7 +17,7 @@ class NewsController extends Controller
    */
   public function index()
   {
-    $news = News::all();
+    $news = News::with('category')->orderBy('created_at', 'desc')->paginate(15);
     return view('admin.news', [
       'newsList' => $news
     ]);
@@ -29,9 +30,9 @@ class NewsController extends Controller
    */
   public function create()
   {
-    $categories = Category::all('id', 'title');
+    $categories = new Category();
     return view('admin.newsAdd', [
-      'categories' => $categories
+      'categories' => $categories->getTitles()
     ]);
   }
 
@@ -43,7 +44,16 @@ class NewsController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    $data = request()->only('category_id', 'title', 'description', 'author');
+    $data['slug'] = Str::slug($data['title']);
+
+    $news = News::create($data);
+
+    if ($news) {
+      return redirect()->route('admin.news.index')->with('success', 'News was succesfully created');
+    }
+
+    return back()->with('error', 'News was not created');
   }
 
   /**
@@ -79,9 +89,18 @@ class NewsController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(Request $request, News $news)
   {
-    //
+    $data = $request->only('category_id', 'title', 'description', 'author');
+    $data['slug'] = Str::slug($data['title']);
+
+    $statusNews = $news->fill($data)->save();
+
+    if ($statusNews) {
+      return redirect()->route('admin.news.index')->with('success', 'News succesfully updated');
+    }
+
+    return back()->with('error', 'News was not updated');
   }
 
   /**
@@ -90,8 +109,12 @@ class NewsController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(News $news)
   {
-    //
+    try {
+      $news->delete();
+    } catch (\Exception $ex) {
+      report($ex);
+    }
   }
 }
