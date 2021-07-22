@@ -44,6 +44,15 @@ class NewsController extends Controller
    */
   public function store(Request $request)
   {
+
+    $request->validate([
+      'title' => ['required', 'string'],
+      'description' => ['nullable', 'string'],
+      'author' => ['required', 'string'],
+      'category_id' => ['required', 'integer'],
+      'status' => ['required']
+    ]);
+
     $data = request()->only('category_id', 'title', 'description', 'author');
     $data['slug'] = Str::slug($data['title']);
 
@@ -91,6 +100,14 @@ class NewsController extends Controller
    */
   public function update(Request $request, News $news)
   {
+    $request->validate([
+      'title' => ['required', 'string'],
+      'description' => ['nullable', 'string'],
+      'author' => ['required', 'string'],
+      'category_id' => ['required', 'integer'],
+      'status' => ['required']
+    ]);
+
     $data = $request->only('category_id', 'title', 'description', 'author');
     $data['slug'] = Str::slug($data['title']);
 
