@@ -15,7 +15,16 @@
           <path d="M21 21l-5.2-5.2" />
         </svg>
       </a>
-      <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
+      @auth
+        <span class="me-3">Hello, {{ Auth::user()->name }}.</span>
+        @if (Auth::user()->is_admin)
+          <a class="btn btn-sm btn-outline-secondary me-3" href="{{ route('admin.index') }}">Admin panel</a>
+        @endif
+        <a class="btn btn-sm btn-outline-secondary" href="{{ route('logout') }}">Sign out</a>
+      @endauth
+      @guest
+        <a class="btn btn-sm btn-outline-secondary" href="{{ route('login') }}">Sign in</a>
+      @endguest
     </div>
   </div>
 </header>

@@ -3,7 +3,7 @@
     <ul class="nav flex-column">
       <li class="nav-item">
         <a class="nav-link @if (request()->is('admin')) active @endif"
-          aria-current="page" href="{{ route('admin.') }}">
+          aria-current="page" href="{{ route('admin.index') }}">
           <span data-feather="home"></span>
           Main
         </a>

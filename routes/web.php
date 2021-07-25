@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
-use App\Http\Controllers\AuthorizationController;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\NewsController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,13 +18,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [MainController::class, 'index']);
+Route::get('/', [MainController::class, 'index'])->name('main');
 
-Route::get('authorization', [AuthorizationController::class, 'index'])->name('auth');
+
+Route::group(['middleware' => 'auth'], function () {
+  Route::get('/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/');
+  })->name('logout');
+});
 
 //admin
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
-  Route::view('/', 'admin.index');
+Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], function () {
+  Route::view('/', 'admin.index')->name('index');
   Route::resource('news', AdminNewsController::class);
   Route::resource('categories', AdminCategoryController::class);
 });
