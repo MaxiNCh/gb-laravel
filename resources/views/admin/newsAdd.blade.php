@@ -56,4 +56,6 @@
     <button type="submit" class="btn btn-primary">Save</button>
   </form>
 
+  <a href="{{ route('admin.storeRss') }}" class="btn btn-dark mt-3">Save from RSS</a>
+
 @endsection

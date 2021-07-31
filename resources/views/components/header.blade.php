@@ -17,6 +17,9 @@
       </a>
       @auth
         <span class="me-3">Hello, {{ Auth::user()->name }}.</span>
+        @if (Auth::user()->avatar)
+          <img src="{{ Auth::user()->avatar }}" alt="avatar" class="rounded  me-3">
+        @endif
         @if (Auth::user()->is_admin)
           <a class="btn btn-sm btn-outline-secondary me-3" href="{{ route('admin.index') }}">Admin panel</a>
         @endif

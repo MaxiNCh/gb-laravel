@@ -11,6 +11,7 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
   <link rel="stylesheet" href="{{ asset('assets/css/sign-in.css') }}">
+  <script src="https://kit.fontawesome.com/a03bfa2223.js" crossorigin="anonymous"></script>
 
   <!-- Custom styles for this template -->
   {{-- <link href="signin.css" rel="stylesheet"> --}}
@@ -46,7 +47,11 @@
       </div>
       <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
       <p class="mt-3">Don't have an account? <a href="{{ route('register') }}" class="link">Sign Up</a></p>
-      <p class="mt-5 mb-3 text-muted">&copy; 2021. Maxim Zaboronkin. All rights reserved</p>
+      <p class="mt-5 mb-1">Sign in with social netwrok:</p>
+      <a href="{{ route('socialLogin') }}" class="btn bg-white w-100">
+        <img src="{{ asset('assets/images/VK_Full_Logo.svg') }}" alt="VK-logo">
+      </a>
+      <p class="mt-5 text-muted">&copy; 2021. Maxim Zaboronkin. All rights reserved</p>
     </form>
   </main>
 
