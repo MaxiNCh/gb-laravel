@@ -50,11 +50,22 @@ class NewsController extends Controller
       'description' => ['nullable', 'string'],
       'author' => ['required', 'string'],
       'category_id' => ['required', 'integer'],
-      'status' => ['required']
+      'status' => ['required'],
+      'image' => ['nullable', 'file']
     ]);
 
     $data = request()->only('category_id', 'title', 'description', 'author');
     $data['slug'] = Str::slug($data['title']);
+
+    if ($request->hasFile('image')) {
+      $file = $request->file('image');
+      $fileName = md5($file->getClientOriginalName() . time());
+      $fileExt = $file->getClientOriginalExtension();
+
+      $newFileName = $fileName . $fileExt;
+
+      $data['image'] = $file->storeAs('news', $newFileName, 'public');
+    }
 
     $news = News::create($data);
 
@@ -105,11 +116,22 @@ class NewsController extends Controller
       'description' => ['nullable', 'string'],
       'author' => ['required', 'string'],
       'category_id' => ['required', 'integer'],
-      'status' => ['required']
+      'status' => ['required'],
+      'image' => ['nullable', 'file']
     ]);
 
     $data = $request->only('category_id', 'title', 'description', 'author');
     $data['slug'] = Str::slug($data['title']);
+
+    if ($request->hasFile('image')) {
+      $file = $request->file('image');
+      $fileName = md5($file->getClientOriginalName() . time());
+      $fileExt = $file->getClientOriginalExtension();
+
+      $newFileName = $fileName . '.' . $fileExt;
+
+      $data['image'] = $file->storeAs('news', $newFileName, 'public');
+    }
 
     $statusNews = $news->fill($data)->save();
 

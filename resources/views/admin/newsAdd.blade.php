@@ -12,7 +12,10 @@
       </ul>
     </div>
   @endif
-  <form method="POST" action="/admin/news">
+  @isset($message)
+    <div class="alert alert-success">{{ $message }}</div>
+  @endisset
+  <form method="POST" action="/admin/news" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
       <label class="fw-bolder" for="category">Category</label>
@@ -40,6 +43,10 @@
         rows="3">{{ old('description') }}</textarea>
     </div>
     <div class="form-group">
+      <label class="fw-bolder" for="formFile">News image</label>
+      <input class="form-control" type="file" id="formFile" name="image">
+    </div>
+    <div class="form-group">
       <label class="fw-bolder" for="status">Status</label>
       <select class="form-control" id="status" name="status">
         <option @if (old('status') === 'DRAFT') selected @endif>
@@ -59,3 +66,7 @@
   <a href="{{ route('admin.storeRss') }}" class="btn btn-dark mt-3">Save from RSS</a>
 
 @endsection
+
+@push('js')
+  <script type="text/javascript" src="/assets/js/editorInit.js"></script>
+@endpush

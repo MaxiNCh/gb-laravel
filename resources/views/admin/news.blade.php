@@ -26,7 +26,7 @@
           <tr>
             <td>{{ $news->category->title }} </td>
             <td>{{ $news->title }}</td>
-            <td>{{ $news->description }}</td>
+            <td>{!! $news->description !!}</td>
             <td>{{ $news->author }}</td>
             <td>{{ $news->created_at }}</td>
             <td>

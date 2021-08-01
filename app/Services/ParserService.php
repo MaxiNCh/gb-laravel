@@ -24,10 +24,12 @@ class ParserService implements ParserInterface
     ]);
   }
 
-  public function prepareNews(array $parsedData): array
+  public function saveNews($url): void
   {
+    $parsedNews = $this->getParsedData($url);
     $preparedNews = array();
-    foreach ($parsedData['news'] as $key => $news) {
+
+    foreach ($parsedNews['news'] as $key => $news) {
       $preparedNews[$key]['title'] = $news['title'];
       $preparedNews[$key]['description'] = $news['description'];
       $preparedNews[$key]['slug'] = Str::slug($news['title']);
@@ -36,8 +38,9 @@ class ParserService implements ParserInterface
       $preparedNews[$key]['status'] = 'PUBLISHED';
       $preparedNews[$key]['created_at'] = now();
       $preparedNews[$key]['updated_at'] = now();
+      $preparedNews[$key]['published_at'] = now();
     }
 
-    return $preparedNews;
+    $newsStatus = News::insert($preparedNews);
   }
 }

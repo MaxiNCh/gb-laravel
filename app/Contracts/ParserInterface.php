@@ -7,5 +7,5 @@ namespace App\Contracts;
 interface ParserInterface
 {
   public function getParsedData(string $url): array;
-  public function prepareNews(array $parsedData): array;
+  public function saveNews(string $url): void;
 }

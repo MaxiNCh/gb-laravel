@@ -12,7 +12,7 @@
       </ul>
     </div>
   @endif
-  <form method="POST" action="/admin/news/{{ $news->id }}">
+  <form method="POST" action="/admin/news/{{ $news->id }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="form-group">
@@ -40,6 +40,10 @@
         rows="3">{{ $news->description }}</textarea>
     </div>
     <div class="form-group">
+      <label class="fw-bolder" for="formFile">News image</label>
+      <input class="form-control" type="file" id="formFile" name="image">
+    </div>
+    <div class="form-group">
       <label class="fw-bolder" for="status">Status</label>
       <select class="form-control" id="status" name="status">
         <option @if ($news->status === 'DRAFT') selected @endif>
@@ -57,3 +61,7 @@
   </form>
 
 @endsection
+
+@push('js')
+  <script type="text/javascript" src="/assets/js/editorInit.js"></script>
+@endpush

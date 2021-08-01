@@ -45,3 +45,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], f
   Route::resource('categories', AdminCategoryController::class);
   Route::get('/store-rss', ParserController::class)->name('storeRss');
 });
+
+//fileManager
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth', 'admin']], function () {
+  \UniSharp\LaravelFilemanager\Lfm::routes();
+});

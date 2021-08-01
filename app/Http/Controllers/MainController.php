@@ -10,7 +10,7 @@ class MainController extends Controller
 {
   public function index()
   {
-    $news = News::with('category')->paginate(10);
+    $news = News::with('category')->orderBy('published_at')->paginate(10);
     $categories = Category::all();
     return view('index', [
       'newsList' => $news,
